@@ -28,8 +28,9 @@ public class FileDataController {
     public ResponseEntity<?> downloadFile(@PathVariable String fileName)  {
         byte[] file = fileStorageService.downloadFile(fileName);
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/jpg"))
+                .contentType(MediaType.valueOf("image/jpeg"))
                 .body(file);
 
     }
+
 }
