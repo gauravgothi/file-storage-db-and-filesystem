@@ -1,6 +1,7 @@
 package com.gaurav.filestorage.controller;
 
-import com.gaurav.filestorage.service.FileStorageService;
+import com.gaurav.filestorage.entity.FileSystemStorage;
+import com.gaurav.filestorage.service.FileSystemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,28 +12,25 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/file")
-public class FileDataController {
+@RequestMapping("/file-system")
+public class FileSystemStorageController {
 
     @Autowired
-    private FileStorageService fileStorageService;
-
+    private FileSystemStorageService fileSystemStorageService;
 
     @PostMapping("/fileupload")
-    public ResponseEntity<?> uploadFile(@RequestParam("file")MultipartFile file) throws IOException {
-        String uploadFile = fileStorageService.uploadFile(file);
+    public ResponseEntity<?> uploadFileToFileSystem(MultipartFile file) throws IOException {
+        String uploadFile = fileSystemStorageService.uploadFileToFileSystem(file);
         return ResponseEntity.status(HttpStatus.OK).body(uploadFile);
 
     }
 
     @GetMapping("/{fileName}")
-    public ResponseEntity<?> downloadFile(@PathVariable String fileName)  {
-        byte[] file = fileStorageService.downloadFile(fileName);
+    public ResponseEntity<?> downloadFileFromFileSystem(@PathVariable String fileName) throws IOException {
+        byte[] file = fileSystemStorageService.downloadFileFromFileSystem(fileName);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/jpeg"))
                 .body(file);
 
     }
-
-
 }
